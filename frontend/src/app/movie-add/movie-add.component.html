@@ -1,0 +1,30 @@
+<div class="forma">
+    <form class="form-container" #sensorForm="ngForm">
+        <h2>You are adding a new Movie</h2>
+        
+        <mat-form-field appearance="fill">
+            <mat-label>Movie name</mat-label>
+            <input matInput width=100px required #seriesName="ngModel" [(ngModel)]="movie!.name" name="serialNumber">
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Movie date of beginning</mat-label>
+            <input matInput width=100px required #seriesDate="ngModel" [(ngModel)]="movie!.datumString" name="serialNumber">
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Movie duration in minutes</mat-label>
+            <input matInput width=100px required #durationMinutes="ngModel" [(ngModel)]="movie!.durationMinutes" name="serialNumber">
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Movie genre id</mat-label>
+            <mat-select [(ngModel)]="movie!.genreId" name="SensorTypeId">
+                <mat-option required *ngFor="let sensorType of genreNames" [value]="sensorType.id">
+                {{sensorType.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <div class="button-container">
+            <button type="submit" mat-raised-button (click)="onSubmit()">Submit</button>
+        </div>
+    </form>
+</div>
