@@ -1,0 +1,48 @@
+
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<table mat-table [dataSource]="series" class="mat-elevation-z8 tablicaSerija">
+    <!-- Position Column -->
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef>id</th>
+      <td mat-cell *matCellDef="let element">{{element.id}}</td>
+    </ng-container>
+  
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>name</th>
+      <td mat-cell *matCellDef="let element">{{element.name}}</td>
+    </ng-container>
+    <!--
+    <ng-container matColumnDef="genreId">
+      <th mat-header-cell *matHeaderCellDef>genreId</th>
+      <td mat-cell *matCellDef="let element">{{element.genreId}}</td>
+    </ng-container> -->
+    <ng-container matColumnDef="genreName">
+      <th mat-header-cell *matHeaderCellDef>genreName</th>
+      <td mat-cell *matCellDef="let element">{{element.genreName}}</td>
+    </ng-container>
+    <ng-container matColumnDef="datumIzlaska">
+      <th mat-header-cell *matHeaderCellDef>datumIzlaska</th>
+      <td mat-cell *matCellDef="let element">{{element.datumIzlaska.substring(0, 10)}}</td>
+    </ng-container>
+    <ng-container matColumnDef="durationMinutes">
+      <th mat-header-cell *matHeaderCellDef>durationMinutes</th>
+      <td mat-cell *matCellDef="let element">{{element.durationMinutes}}</td>
+    </ng-container>
+    <ng-container matColumnDef="update">
+        <th mat-header-cell *matHeaderCellDef>update</th>
+        <td mat-cell *matCellDef="let row"><button (click)="onUpdateClick(row.id)">Update</button></td>
+    </ng-container>
+    <ng-container matColumnDef="delete">
+        <th mat-header-cell *matHeaderCellDef>delete</th>
+        <td mat-cell *matCellDef="let row"><button  (click)="onDeleteClick(row.id)"><mat-icon>delete</mat-icon></button></td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+ <button (click)="onAddClick()">Add new movie</button>
+  <div>
+   <app-movie-update #update *ngIf="edit" [movieId]="movieId" (refreshEvent)="refreshEvent()"></app-movie-update> 
+</div>
+<div>
+    <app-movie-add *ngIf="add" (refreshEvent)="refreshEvent()"></app-movie-add>
+</div>

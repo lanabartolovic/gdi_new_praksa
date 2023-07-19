@@ -1,0 +1,14 @@
+<div class="forma">
+    <form class="form-container" #sensorForm="ngForm">
+        <h2>You are adding new Genre</h2>
+        
+        <mat-form-field appearance="fill">
+            <mat-label>Genre name</mat-label>
+            <input matInput width=100px required #genreName="ngModel" [(ngModel)]="genre!.name" name="serialNumber">
+        </mat-form-field>
+
+        <div class="button-container">
+            <button type="submit" mat-raised-button (click)="onSubmit()">Submit</button>
+        </div>
+    </form>
+</div>

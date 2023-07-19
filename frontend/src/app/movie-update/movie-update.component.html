@@ -1,0 +1,33 @@
+
+<form class="form-container" #sensorForm="ngForm">
+
+    <mat-form-field appearance="fill">
+        <mat-label>New Name</mat-label>
+        <input matInput required #name="ngModel" [(ngModel)]="movie!.name" name="name">
+        
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+        <mat-label>New genre</mat-label>
+        <mat-select [(ngModel)]="movie!.genreId" name="SensorTypeId">
+            <mat-option required *ngFor="let sensorType of genreNames" [value]="sensorType.id">
+            {{sensorType.name}}
+            </mat-option>
+        </mat-select>
+        
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+        <mat-label>New date, format : dd-mm-yy</mat-label>
+        <input matInput required #datumString="ngModel" [(ngModel)]="movie!.datumString" name="datumString">
+        
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+        <mat-label>New duration</mat-label>
+        <input matInput required #durationMinutes="ngModel" [(ngModel)]="movie!.durationMinutes" name="durationMinutes">
+        
+    </mat-form-field>
+
+
+    <div class="button-container">
+        <button type="submit" mat-raised-button (click)="onSubmit()">Submit</button>
+    </div>
+</form> 
