@@ -4,6 +4,7 @@ using Infrastructure;
 using Core.Entities;
 using WebApplication2.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace WebApplication2.Controllers
 {
@@ -50,12 +51,34 @@ namespace WebApplication2.Controllers
         }
 
         [HttpGet("first-projection/{id}")]
-        public async Task<ActionResult<ProjectionDTO>> GetFirstProjection(long id)
+        public async Task<ActionResult<FirstProjectionDTO>> GetFirstProjection(long id)
         {
-            var result = await _dbContext.Projections.Where(x=> x.MovieTheatreId == id).OrderBy(x=> x.ProjectionDateTime.TimeOfDay).FirstOrDefaultAsync();
-            var ime = await _dbContext.Movies.Where(x=> x.Id == result.MovieId).FirstOrDefaultAsync();
-            var projekcija = new ProjectionDTO(result.Id, result.MovieId, result.MovieTheatreId, result.ProjectionDateTime, result.ProjectionTypeId, ime.Name);
-            return Ok(projekcija);
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+            var projection = await _dbContext.Projections
+        .Where(x => x.MovieTheatreId == id)
+        .OrderBy(x => x.ProjectionDateTime.TimeOfDay)
+        .Include(x => x.Movie)
+        .Include(x => x.MovieTheatre)
+        .FirstOrDefaultAsync();
+
+            sw.Stop();
+            TimeSpan ts = sw.Elapsed;
+            string fetchtime = String.Format("{0:00}:{1:00}:{2:00}:{3:00}", ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds / 10);
+            if (projection == null)
+            {
+                return null;
+            }
+
+            return new FirstProjectionDTO
+            (
+                projection.MovieTheatreId,
+                projection.MovieTheatre?.Name,
+                projection.Movie?.Name,
+                projection.MovieTheatre?.Lat ?? 0.0,
+                projection.MovieTheatre?.Long ?? 0.0,
+                fetchtime
+            );
         }
 
         [HttpPut("update-movie-theatre/{id}")]
